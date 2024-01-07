@@ -1,2 +1,6 @@
 server:
   port: 8080
+pizza:
+  sauce: "tomato"
+  topping: "super supreme"
+  crust: "thin"
