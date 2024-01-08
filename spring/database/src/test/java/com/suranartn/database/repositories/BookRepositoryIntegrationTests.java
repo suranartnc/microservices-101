@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class BookRepositoryIntegrationTests {
     private final BookRepository underTest;
-//    private  AuthorDao authorDao;
 
     @Autowired
     public BookRepositoryIntegrationTests(BookRepository underTest) {
@@ -28,12 +27,28 @@ public class BookRepositoryIntegrationTests {
 
     @Test
     public void testThatBookCanBeCreatedAndRecalled() {
-        Author author = TestDataUtil.createTestAuthor();
-        Book book = TestDataUtil.createTestBook(author);
+        Author author = TestDataUtil.createTestAuthorA();
+        Book book = TestDataUtil.createTestBookA(author);
         underTest.save(book);
 
         Optional<Book> result = underTest.findById(book.getIsbn());
         assertThat(result).isPresent();
         assertThat(result.get()).isEqualTo(book);
+    }
+
+    @Test
+    public void testThatMultipleBooksCanBeCreatedAndRecalled() {
+        Author author = TestDataUtil.createTestAuthorA();
+
+        Book bookA = TestDataUtil.createTestBookA(author);
+        underTest.save(bookA);
+
+        Book bookB = TestDataUtil.createTestBookB(author);
+        underTest.save(bookB);
+
+        Iterable<Book> result = underTest.findAll();
+        assertThat(result)
+                .hasSize(2)
+                .containsExactly(bookA, bookB);
     }
 }
