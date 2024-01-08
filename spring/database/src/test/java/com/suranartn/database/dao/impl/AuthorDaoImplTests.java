@@ -1,4 +1,4 @@
-package com.suranartn.database.dao;
+package com.suranartn.database.dao.impl;
 
 import com.suranartn.database.dao.impl.AuthorDaoImpl;
 import com.suranartn.database.domain.Author;
