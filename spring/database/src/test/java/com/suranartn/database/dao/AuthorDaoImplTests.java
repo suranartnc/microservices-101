@@ -13,7 +13,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class AuthorDaoTests {
+public class AuthorDaoImplTests {
     @Mock
     private JdbcTemplate jdbcTemplate;
 
@@ -32,7 +32,9 @@ public class AuthorDaoTests {
 
         verify(jdbcTemplate).update(
             eq("INSERT INTO authors (id, name, age) VALUES (?, ?, ?)"),
-            eq(1L), eq("Abigail Rose"), eq(80)
+            eq(1L),
+            eq("Abigail Rose"),
+            eq(80)
         );
     }
 }
