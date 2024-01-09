@@ -4,6 +4,8 @@ import com.suranartn.database.domain.entities.AuthorEntity;
 import com.suranartn.database.domain.dto.AuthorDto;
 import com.suranartn.database.mappers.Mapper;
 import com.suranartn.database.services.AuthorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +21,9 @@ public class AuthorController {
     }
 
     @PostMapping(path = "/authors")
-    public AuthorDto createAuthor(@RequestBody AuthorDto author) {
+    public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author) {
         AuthorEntity authorEntity = authorMapper.mapFrom(author);
         AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
-        return authorMapper.mapTo(savedAuthorEntity);
+        return new ResponseEntity<>(authorMapper.mapTo(savedAuthorEntity), HttpStatus.CREATED);
     }
 }

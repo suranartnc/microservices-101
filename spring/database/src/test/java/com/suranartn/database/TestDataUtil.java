@@ -2,6 +2,7 @@ package com.suranartn.database;
 
 import com.suranartn.database.domain.entities.AuthorEntity;
 import com.suranartn.database.domain.entities.BookEntity;
+import org.springframework.context.annotation.Bean;
 
 public final class TestDataUtil {
     public static AuthorEntity createTestAuthorA() {
