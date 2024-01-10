@@ -3,6 +3,7 @@ package com.suranartn.database.services.impl;
 import com.suranartn.database.domain.entities.AuthorEntity;
 import com.suranartn.database.repositories.AuthorRepository;
 import com.suranartn.database.services.AuthorService;
+import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +43,16 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public boolean isExisted(Long id) {
         return authorRepository.existsById(id);
+    }
+
+    @Override
+    public AuthorEntity partialUpdate(Long id, AuthorEntity authorEntity) {
+        authorEntity.setId(id);
+
+        return authorRepository.findById(id).map(existingAuthor -> {
+            Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthor::setName);
+            Optional.ofNullable(authorEntity.getAge()).ifPresent(existingAuthor::setAge);
+            return authorRepository.save(existingAuthor);
+        }).orElseThrow(() -> new RuntimeException("Author does not exist"));
     }
 }
