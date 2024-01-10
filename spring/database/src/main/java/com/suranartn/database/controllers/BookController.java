@@ -6,9 +6,13 @@ import com.suranartn.database.domain.entities.AuthorEntity;
 import com.suranartn.database.domain.entities.BookEntity;
 import com.suranartn.database.mappers.Mapper;
 import com.suranartn.database.services.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -28,5 +32,11 @@ public class BookController {
         BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
         BookDto savedBookDto = bookMapper.mapTo(savedBookEntity);
         return new ResponseEntity<>(savedBookDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/books")
+    public Page<BookDto> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapTo);
     }
 }
